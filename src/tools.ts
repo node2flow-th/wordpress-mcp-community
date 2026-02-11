@@ -2,9 +2,18 @@
  * WordPress MCP Tool Definitions (20 tools)
  */
 
+export interface ToolAnnotation {
+  title: string;
+  readOnlyHint?: boolean;
+  destructiveHint?: boolean;
+  idempotentHint?: boolean;
+  openWorldHint?: boolean;
+}
+
 export interface MCPToolDefinition {
   name: string;
   description: string;
+  annotations: ToolAnnotation;
   inputSchema: Record<string, unknown>;
 }
 
@@ -13,6 +22,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_posts',
     description: 'List WordPress posts with optional filters. Returns post ID, title, status, date, and categories. Use to browse existing content or find posts by keyword.',
+    annotations: {
+      title: 'List Posts',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -25,6 +40,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_get_post',
     description: 'Get a single WordPress post with full content, metadata, categories, and tags. Use to inspect post content before editing.',
+    annotations: {
+      title: 'Get Post',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -36,6 +57,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_create_post',
     description: 'Create a new WordPress post. Provide title and content (HTML). Optionally set status (draft/publish), categories, and tags.',
+    annotations: {
+      title: 'Create Post',
+      readOnlyHint: false,
+      destructiveHint: false,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -51,6 +78,13 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_update_post',
     description: 'Update an existing WordPress post. Change title, content, status, categories, or tags.',
+    annotations: {
+      title: 'Update Post',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -67,6 +101,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_delete_post',
     description: 'Delete a WordPress post. Moves to trash by default.',
+    annotations: {
+      title: 'Delete Post',
+      readOnlyHint: false,
+      destructiveHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -80,6 +120,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_pages',
     description: 'List WordPress pages. Returns page ID, title, status, and parent page. Use to browse site page structure.',
+    annotations: {
+      title: 'List Pages',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -91,6 +137,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_get_page',
     description: 'Get a single WordPress page with full content and metadata.',
+    annotations: {
+      title: 'Get Page',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -102,6 +154,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_create_page',
     description: 'Create a new WordPress page. Provide title and content (HTML). Optionally set parent page for hierarchy.',
+    annotations: {
+      title: 'Create Page',
+      readOnlyHint: false,
+      destructiveHint: false,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -116,6 +174,13 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_update_page',
     description: 'Update an existing WordPress page.',
+    annotations: {
+      title: 'Update Page',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -130,6 +195,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_delete_page',
     description: 'Delete a WordPress page.',
+    annotations: {
+      title: 'Delete Page',
+      readOnlyHint: false,
+      destructiveHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -143,6 +214,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_media',
     description: 'List media files in the WordPress library. Returns file URLs, types, and metadata.',
+    annotations: {
+      title: 'List Media',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -154,6 +231,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_delete_media',
     description: 'Permanently delete a media file from WordPress.',
+    annotations: {
+      title: 'Delete Media',
+      readOnlyHint: false,
+      destructiveHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -167,6 +250,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_comments',
     description: 'List comments on WordPress posts. Filter by post ID.',
+    annotations: {
+      title: 'List Comments',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -178,6 +267,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_create_comment',
     description: 'Create a new comment on a WordPress post.',
+    annotations: {
+      title: 'Create Comment',
+      readOnlyHint: false,
+      destructiveHint: false,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -192,6 +287,13 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_update_comment',
     description: 'Update or moderate a comment. Change content or approval status.',
+    annotations: {
+      title: 'Update Comment',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -205,6 +307,12 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_delete_comment',
     description: 'Permanently delete a comment.',
+    annotations: {
+      title: 'Delete Comment',
+      readOnlyHint: false,
+      destructiveHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
       properties: {
@@ -218,11 +326,23 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_categories',
     description: 'List all WordPress categories with post counts.',
+    annotations: {
+      title: 'List Categories',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: { type: 'object', properties: {} },
   },
   {
     name: 'wp_list_tags',
     description: 'List all WordPress tags with post counts.',
+    annotations: {
+      title: 'List Tags',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: { type: 'object', properties: {} },
   },
 
@@ -230,11 +350,23 @@ export const TOOLS: MCPToolDefinition[] = [
   {
     name: 'wp_list_users',
     description: 'List WordPress users with their roles.',
+    annotations: {
+      title: 'List Users',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: { type: 'object', properties: {} },
   },
   {
     name: 'wp_get_site_info',
     description: 'Get WordPress site information: name, description, URL, timezone, and available features.',
+    annotations: {
+      title: 'Get Site Info',
+      readOnlyHint: true,
+      destructiveHint: false,
+      openWorldHint: true,
+    },
     inputSchema: { type: 'object', properties: {} },
   },
 ];

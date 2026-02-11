@@ -1,6 +1,6 @@
 {
   "name": "@node2flow/wordpress-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for WordPress REST API — manage posts, pages, media, comments, categories, tags, and users",
   "type": "module",
   "main": "dist/index.js",

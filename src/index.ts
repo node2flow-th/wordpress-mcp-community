@@ -140,7 +140,7 @@ async function startHttp() {
   app.get('/', (_req: any, res: any) => {
     res.json({
       name: 'wordpress-mcp',
-      version: '1.0.0',
+      version: '1.0.1',
       status: 'ok',
       tools: TOOLS.length,
       transport: 'streamable-http',

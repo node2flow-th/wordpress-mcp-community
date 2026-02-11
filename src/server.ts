@@ -87,13 +87,14 @@ export async function handleToolCall(toolName: string, args: Record<string, unkn
 export function createServer(config?: WordPressMcpConfig): McpServer {
   const server = new McpServer({
     name: 'wordpress-mcp',
-    version: '1.0.0',
+    version: '1.0.1',
   });
 
   let client: WordPressClient | null = null;
 
+  // Register all 20 tools with annotations
   for (const tool of TOOLS) {
-    server.tool(
+    const registered = server.tool(
       tool.name,
       tool.description,
       tool.inputSchema as Record<string, unknown>,
@@ -127,7 +128,93 @@ export function createServer(config?: WordPressMcpConfig): McpServer {
         }
       }
     );
+    registered.update({ annotations: tool.annotations });
   }
+
+  // Register prompts
+  server.prompt(
+    'manage-content',
+    'Guide for managing WordPress posts and pages — list, create, update, and delete content',
+    () => ({
+      messages: [{
+        role: 'user' as const,
+        content: {
+          type: 'text' as const,
+          text: [
+            'You are a WordPress content management assistant.',
+            '',
+            'Available actions:',
+            '1. **List posts** — Use wp_list_posts to see all blog posts',
+            '2. **Get post** — Use wp_get_post to read a specific post',
+            '3. **Create post** — Use wp_create_post with title, content, and status',
+            '4. **Update post** — Use wp_update_post to modify existing posts',
+            '5. **Delete post** — Use wp_delete_post to remove a post',
+            '6. **Pages** — Same operations available for pages (wp_list_pages, etc.)',
+            '',
+            'Start by listing my current posts.',
+          ].join('\n'),
+        },
+      }],
+    })
+  );
+
+  server.prompt(
+    'manage-media',
+    'Guide for managing WordPress media library, comments, categories, and tags',
+    () => ({
+      messages: [{
+        role: 'user' as const,
+        content: {
+          type: 'text' as const,
+          text: [
+            'You are a WordPress media and taxonomy assistant.',
+            '',
+            'Available actions:',
+            '1. **List media** — Use wp_list_media to see uploaded files',
+            '2. **Delete media** — Use wp_delete_media to remove files',
+            '3. **Comments** — Use wp_list_comments, wp_create_comment, wp_update_comment, wp_delete_comment',
+            '4. **Categories** — Use wp_list_categories to see all categories',
+            '5. **Tags** — Use wp_list_tags to see all tags',
+            '6. **Users** — Use wp_list_users to see site users',
+            '7. **Site info** — Use wp_get_site_info for site details',
+            '',
+            'Start by listing the media library.',
+          ].join('\n'),
+        },
+      }],
+    })
+  );
+
+  // Register resources
+  server.resource(
+    'WordPress Server Info',
+    'wordpress://server-info',
+    {
+      description: 'Connection status and available tools for this WordPress MCP server',
+      mimeType: 'application/json',
+    },
+    async () => ({
+      contents: [{
+        uri: 'wordpress://server-info',
+        mimeType: 'application/json',
+        text: JSON.stringify({
+          name: 'wordpress-mcp',
+          version: '1.0.1',
+          connected: !!config,
+          wordpress_url: config?.siteUrl ?? null,
+          tools_available: TOOLS.length,
+          tool_categories: {
+            posts: 5,
+            pages: 5,
+            media: 2,
+            comments: 4,
+            taxonomy: 2,
+            users_and_site: 2,
+          },
+        }, null, 2),
+      }],
+    })
+  );
 
   return server;
 }

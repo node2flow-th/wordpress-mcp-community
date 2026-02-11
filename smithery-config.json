@@ -1,5 +1,6 @@
 {
   "type": "object",
+  "required": ["WORDPRESS_URL", "WORDPRESS_USERNAME", "WORDPRESS_APP_PASSWORD"],
   "properties": {
     "WORDPRESS_URL": {
       "type": "string",
@@ -7,12 +8,21 @@
     },
     "WORDPRESS_USERNAME": {
       "type": "string",
-      "description": "WordPress username"
+      "description": "WordPress username for authentication"
     },
     "WORDPRESS_APP_PASSWORD": {
       "type": "string",
-      "description": "WordPress Application Password (generate in Users → Profile → Application Passwords)"
+      "description": "WordPress Application Password (Settings > Users > Application Passwords). Remove all spaces."
+    },
+    "WORDPRESS_TIMEOUT": {
+      "type": "number",
+      "default": 30000,
+      "description": "Request timeout in milliseconds (default: 30000)"
+    },
+    "WORDPRESS_API_PATH": {
+      "type": "string",
+      "default": "/wp-json",
+      "description": "WordPress REST API base path (default: /wp-json)"
     }
-  },
-  "required": ["WORDPRESS_URL", "WORDPRESS_USERNAME", "WORDPRESS_APP_PASSWORD"]
+  }
 }
