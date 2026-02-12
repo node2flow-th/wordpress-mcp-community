@@ -1,5 +1,6 @@
 # WordPress MCP Server
 
+[![smithery badge](https://smithery.ai/badge/node2flow/wordpress)](https://smithery.ai/server/node2flow/wordpress)
 [![npm version](https://img.shields.io/npm/v/@node2flow/wordpress-mcp.svg)](https://www.npmjs.com/package/@node2flow/wordpress-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
