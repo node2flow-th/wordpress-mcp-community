@@ -67,13 +67,13 @@ export async function handleToolCall(toolName: string, args: Record<string, unkn
 
     // Taxonomy
     case 'wp_list_categories':
-      return client.listCategories();
+      return client.listCategories(args as any);
     case 'wp_list_tags':
-      return client.listTags();
+      return client.listTags(args as any);
 
     // Users & Site
     case 'wp_list_users':
-      return client.listUsers();
+      return client.listUsers(args as any);
     case 'wp_get_site_info':
       return client.getSiteInfo();
 
@@ -88,7 +88,7 @@ export async function handleToolCall(toolName: string, args: Record<string, unkn
 export function createServer(config?: WordPressMcpConfig): McpServer {
   const server = new McpServer({
     name: 'wordpress-mcp',
-    version: '1.0.3',
+    version: '1.0.4',
   });
 
   let client: WordPressClient | null = null;
@@ -200,7 +200,7 @@ export function createServer(config?: WordPressMcpConfig): McpServer {
         mimeType: 'application/json',
         text: JSON.stringify({
           name: 'wordpress-mcp',
-          version: '1.0.3',
+          version: '1.0.4',
           connected: !!config,
           wordpress_url: config?.siteUrl ?? null,
           tools_available: TOOLS.length,

@@ -332,7 +332,13 @@ export const TOOLS: MCPToolDefinition[] = [
       destructiveHint: false,
       openWorldHint: true,
     },
-    inputSchema: { type: 'object', properties: {} },
+    inputSchema: {
+      type: 'object',
+      properties: {
+        per_page: { type: 'number', description: 'Number of categories to return (default 100)' },
+        search: { type: 'string', description: 'Filter categories by search term' },
+      },
+    },
   },
   {
     name: 'wp_list_tags',
@@ -343,7 +349,13 @@ export const TOOLS: MCPToolDefinition[] = [
       destructiveHint: false,
       openWorldHint: true,
     },
-    inputSchema: { type: 'object', properties: {} },
+    inputSchema: {
+      type: 'object',
+      properties: {
+        per_page: { type: 'number', description: 'Number of tags to return (default 100)' },
+        search: { type: 'string', description: 'Filter tags by search term' },
+      },
+    },
   },
 
   // ========== User & Site Tools (2) ==========
@@ -356,7 +368,13 @@ export const TOOLS: MCPToolDefinition[] = [
       destructiveHint: false,
       openWorldHint: true,
     },
-    inputSchema: { type: 'object', properties: {} },
+    inputSchema: {
+      type: 'object',
+      properties: {
+        per_page: { type: 'number', description: 'Number of users to return (default 10)' },
+        search: { type: 'string', description: 'Filter users by search term' },
+      },
+    },
   },
   {
     name: 'wp_get_site_info',

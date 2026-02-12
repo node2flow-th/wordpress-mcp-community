@@ -123,18 +123,28 @@ export class WordPressClient {
   }
 
   // Categories
-  async listCategories() {
-    return this.request('/wp/v2/categories?per_page=100');
+  async listCategories(params?: { per_page?: number; search?: string }) {
+    const query = new URLSearchParams();
+    query.set('per_page', String(params?.per_page ?? 100));
+    if (params?.search) query.set('search', params.search);
+    return this.request(`/wp/v2/categories?${query.toString()}`);
   }
 
   // Tags
-  async listTags() {
-    return this.request('/wp/v2/tags?per_page=100');
+  async listTags(params?: { per_page?: number; search?: string }) {
+    const query = new URLSearchParams();
+    query.set('per_page', String(params?.per_page ?? 100));
+    if (params?.search) query.set('search', params.search);
+    return this.request(`/wp/v2/tags?${query.toString()}`);
   }
 
   // Users
-  async listUsers() {
-    return this.request('/wp/v2/users');
+  async listUsers(params?: { per_page?: number; search?: string }) {
+    const query = new URLSearchParams();
+    if (params?.per_page) query.set('per_page', String(params.per_page));
+    if (params?.search) query.set('search', params.search);
+    const qs = query.toString();
+    return this.request(`/wp/v2/users${qs ? `?${qs}` : ''}`);
   }
 
   // Site info
