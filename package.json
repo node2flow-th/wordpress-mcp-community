@@ -1,6 +1,6 @@
 {
   "name": "@node2flow/wordpress-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP server for WordPress REST API — manage posts, pages, media, comments, categories, tags, and users",
   "type": "module",
   "main": "dist/index.js",
@@ -30,6 +30,7 @@
   ],
   "author": "Node2Flow",
   "license": "MIT",
+  "homepage": "https://github.com/node2flow-th/wordpress-mcp-community",
   "repository": {
     "type": "git",
     "url": "https://github.com/node2flow-th/wordpress-mcp-community"

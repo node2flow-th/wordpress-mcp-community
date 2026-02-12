@@ -4,6 +4,7 @@
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { WordPressClient } from './client.js';
 import { TOOLS } from './tools.js';
 
@@ -87,7 +88,7 @@ export async function handleToolCall(toolName: string, args: Record<string, unkn
 export function createServer(config?: WordPressMcpConfig): McpServer {
   const server = new McpServer({
     name: 'wordpress-mcp',
-    version: '1.0.1',
+    version: '1.0.3',
   });
 
   let client: WordPressClient | null = null;
@@ -199,7 +200,7 @@ export function createServer(config?: WordPressMcpConfig): McpServer {
         mimeType: 'application/json',
         text: JSON.stringify({
           name: 'wordpress-mcp',
-          version: '1.0.1',
+          version: '1.0.3',
           connected: !!config,
           wordpress_url: config?.siteUrl ?? null,
           tools_available: TOOLS.length,
@@ -215,6 +216,17 @@ export function createServer(config?: WordPressMcpConfig): McpServer {
       }],
     })
   );
+
+  // Override tools/list handler to return raw JSON Schema with property descriptions.
+  // McpServer's Zod processing strips raw JSON Schema properties, returning empty schemas.
+  (server as any).server.setRequestHandler(ListToolsRequestSchema, () => ({
+    tools: TOOLS.map(tool => ({
+      name: tool.name,
+      description: tool.description,
+      inputSchema: tool.inputSchema,
+      annotations: tool.annotations,
+    })),
+  }));
 
   return server;
 }
