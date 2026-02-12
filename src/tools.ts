@@ -385,6 +385,11 @@ export const TOOLS: MCPToolDefinition[] = [
       destructiveHint: false,
       openWorldHint: true,
     },
-    inputSchema: { type: 'object', properties: {} },
+    inputSchema: {
+      type: 'object',
+      properties: {
+        _fields: { type: 'string', description: 'Comma-separated list of fields to include in the response (e.g. "name,description,url")' },
+      },
+    },
   },
 ];

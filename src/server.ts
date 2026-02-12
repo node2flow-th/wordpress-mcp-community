@@ -88,7 +88,7 @@ export async function handleToolCall(toolName: string, args: Record<string, unkn
 export function createServer(config?: WordPressMcpConfig): McpServer {
   const server = new McpServer({
     name: 'wordpress-mcp',
-    version: '1.0.4',
+    version: '1.0.5',
   });
 
   let client: WordPressClient | null = null;
@@ -200,7 +200,7 @@ export function createServer(config?: WordPressMcpConfig): McpServer {
         mimeType: 'application/json',
         text: JSON.stringify({
           name: 'wordpress-mcp',
-          version: '1.0.4',
+          version: '1.0.5',
           connected: !!config,
           wordpress_url: config?.siteUrl ?? null,
           tools_available: TOOLS.length,
